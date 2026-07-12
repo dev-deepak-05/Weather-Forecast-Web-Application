@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Premium Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="loading-overlay is-hidden" id="loading-overlay">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <p>Gathering forecast details…</p>
+      </div>
+    </div>
+
+    <main class="app-shell">
+      <section class="dashboard-card">
+        <header class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Premium Weather Forecast</p>
+            <h1>Weather, clarity, and calm in one view.</h1>
+            <p class="hero-text">
+              A refined dashboard for your daily forecast, air quality, and sky conditions.
+            </p>
+          </div>
+
+          <div class="hero-controls">
+            <form class="search-bar" id="search-form">
+              <input
+                id="city-input"
+                type="text"
+                placeholder="Search for a city"
+                autocomplete="off"
+              />
+              <button type="submit">Search</button>
+            </form>
+
+            <div class="action-row">
+              <button type="button" class="secondary-btn" id="location-btn">📍 My Location</button>
+              <div class="status-pill" id="status">
+                <span class="status-spinner" aria-hidden="true"></span>
+                <span class="status-text" id="status-text">Loading weather…</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <section class="main-column">
+            <article class="glass-card current-weather" id="current-weather" hidden>
+              <div class="card-header">
+                <div>
+                  <p class="card-label">Current Weather</p>
+                  <h2 id="location">City</h2>
+                </div>
+                <span class="date-pill" id="date">Date</span>
+              </div>
+
+              <div class="weather-hero">
+                <div class="weather-illustration" id="weather-illustration" aria-hidden="true">
+                  <div class="sun"></div>
+                  <div class="moon"></div>
+                  <div class="cloud cloud-one"></div>
+                  <div class="cloud cloud-two"></div>
+                  <div class="rain"></div>
+                  <div class="snow"></div>
+                  <div class="lightning"></div>
+                </div>
+
+                <div class="temperature-block">
+                  <div class="weather-icon" id="weather-icon">☀️</div>
+                  <div>
+                    <p class="temperature" id="temperature">--°C</p>
+                    <p class="condition" id="condition">Clear</p>
+                    <p class="feels-like" id="feels-like">Feels like --°C</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="details-grid">
+                <div class="detail-item">
+                  <span>Humidity</span>
+                  <strong id="humidity">--%</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Wind</span>
+                  <strong id="wind">-- km/h</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Sunrise</span>
+                  <strong id="sunrise">--:--</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Sunset</span>
+                  <strong id="sunset">--:--</strong>
+                </div>
+                <div class="detail-item">
+                  <span>UV Index</span>
+                  <strong id="uv-index">--</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Pressure</span>
+                  <strong id="pressure">-- hPa</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Visibility</span>
+                  <strong id="visibility">-- km</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Wind Direction</span>
+                  <strong id="wind-direction">--°</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Cloud Cover</span>
+                  <strong id="cloud-cover">--%</strong>
+                </div>
+                <div class="detail-item">
+                  <span>Feels Like</span>
+                  <strong id="feels-like-detail">--°C</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="glass-card forecast-section">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">Forecast</p>
+                  <h3>Hourly Forecast</h3>
+                </div>
+              </div>
+              <div class="forecast-grid">
+                <div class="metric-card">
+                  <div class="metric-title">Temperature</div>
+                  <canvas id="temp-chart"></canvas>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-title">Humidity</div>
+                  <canvas id="humidity-chart"></canvas>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-title">Wind Speed</div>
+                  <canvas id="wind-chart"></canvas>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-title">Rain Probability</div>
+                  <canvas id="rain-chart"></canvas>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <aside class="side-column">
+            <article class="glass-card aqi-card" id="aqi-card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">Air Quality</p>
+                  <h3>AQI Dashboard</h3>
+                </div>
+              </div>
+              <div class="aqi-score">
+                <span id="aqi-value">--</span>
+                <small id="aqi-category">Good</small>
+              </div>
+              <div class="aqi-indicator" aria-hidden="true"><span></span></div>
+              <p class="aqi-advice" id="aqi-advice">Air quality looks comfortable for most people.</p>
+            </article>
+
+            <article class="glass-card alerts-card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">Alerts</p>
+                  <h3>Weather Alerts</h3>
+                </div>
+              </div>
+              <ul class="alerts-list" id="alerts-list">
+                <li>No Weather Alerts</li>
+              </ul>
+            </article>
+
+            <article class="glass-card recent-card">
+              <div class="card-header">
+                <div>
+                  <p class="card-label">History</p>
+                  <h3>Recent Searches</h3>
+                </div>
+                <button type="button" class="clear-history-btn" id="clear-history-btn">Clear History</button>
+              </div>
+              <div class="recent-searches" id="recent-searches"></div>
+            </article>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
